@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,request
 import spacy
 import base64
 from urllib.request import urlopen
