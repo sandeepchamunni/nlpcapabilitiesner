@@ -1,6 +1,7 @@
 from flask import Flask
 import spacy
 import base64
+from urllib.request import urlopen
 #from urllib.request import urlopen
 app = Flask(__name__)
 
