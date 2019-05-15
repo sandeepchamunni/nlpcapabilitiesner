@@ -4,7 +4,6 @@ itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
 spacy>=2.0.0,<3.0.0
-https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.1.0/en_core_web_sm-2.1.0.tar.gz#egg=en_core_web_sm
 Werkzeug==0.14.1
 asn1crypto==0.24.0
 attrs==19.1.0
