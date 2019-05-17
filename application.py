@@ -54,7 +54,7 @@ def nerpretrainedtext():
     return JSONOut
 
 @app.route("/nercustomtrain")
-def nerfile():
+def nercustomtrain():
     TRAIN_DATA = [
         (u"Uber blew through $1 million a week", {"entities": [(0, 4, "ORG")]}),
         (u"Jasmine is a flower", {"entities": [(0, 7, "FLOWER")]}),
