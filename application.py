@@ -2,7 +2,8 @@ from flask import Flask,redirect, url_for, request
 import spacy
 import base64
 from urllib.request import urlopen
-#from urllib.request import urlopen
+import random
+import base64
 
 pretrainedmodel = spacy.load("en_core_web_sm")
 
@@ -51,3 +52,27 @@ def nerpretrainedtext():
     for ent in doc2.ents:
        JSONOut += "{\"label\" : \"" + ent.label_ + "\", \"text\" : \"" + str(base64.b64encode(bytes(ent.text,"utf-8"))).replace("b'","") + "\",\"start\" : \"" + str(ent.start_char) + "\",\"end\" : \"" + str(ent.end_char) + "\"},"
     return JSONOut
+
+@app.route("/nercustomtrain")
+def nerfile():
+    TRAIN_DATA = [
+        (u"Uber blew through $1 million a week", {"entities": [(0, 4, "ORG")]}),
+        (u"Jasmine is a flower", {"entities": [(0, 7, "FLOWER")]}),
+        (u"Google rebrands its business apps", {"entities": [(0, 6, "ORG")]})]
+    try:
+      nlp = spacy.blank('en')
+      ner = nlp.create_pipe("ner")
+      nlp.add_pipe(ner, last=True)
+      nlp.entity.add_label('FLOWER')
+      nlp.entity.add_label('ORG')
+
+      nlp.vocab.vectors.name = 'spacy_pretrained_vectors'
+      optimizer = nlp.begin_training()
+      for i in range(20):
+          random.shuffle(TRAIN_DATA)
+          for text, annotations in TRAIN_DATA:
+              nlp.update([text], [annotations], sgd=optimizer)
+      nlp.to_disk("/nlpcustommodel")
+      return("Completed")
+    except e as error:
+      return str(e)
